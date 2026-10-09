@@ -1,14 +1,118 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Daily Cringe Poster</title>
-<style>body{font-family:system-ui,Arial,sans-serif;max-width:760px;margin:40px auto;padding:0 20px;line-height:1.6;color:#111}h1{margin-bottom:8px}.muted{color:#666}a{color:#d92350}</style></head>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Daily Cringe Poster — Owner publishing tool for TikTok & YouTube</title>
+<meta name="description" content="Daily Cringe Poster is the official publishing tool used by the Daily Cringe account owner to preview, approve, upload and publish their own short videos to TikTok (@1_dailycringe) and YouTube (Daily Cringe, @Daily.Cringe1).">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+:root{--red:#fe2c55;--ink:#111;--muted:#5f6670;--line:#e7e9ee;--bg:#f7f8fa}
+*{box-sizing:border-box}body{font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;margin:0;color:var(--ink);line-height:1.65;background:#fff}
+a{color:var(--red);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1060px;margin:0 auto;padding:0 22px}
+header{border-bottom:1px solid var(--line);background:#fff;position:sticky;top:0}
+.nav{display:flex;align-items:center;gap:14px;padding:14px 0}
+.brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:20px;color:var(--ink)}
+.brand img{width:44px;height:44px;border-radius:10px}
+nav{margin-left:auto;display:flex;gap:18px;flex-wrap:wrap}nav a{color:var(--ink);font-size:15px}
+.hero{background:var(--bg);border-bottom:1px solid var(--line);padding:54px 0 44px}
+.hero-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:34px;align-items:center}
+h1{font-size:42px;line-height:1.12;margin:10px 0 14px}h2{font-size:27px;margin:0 0 14px}h3{margin:0 0 8px}
+.lead{font-size:19px;color:#2b3037}.muted{color:var(--muted)}
+.badge{display:inline-block;border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 11px;font-size:13px}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px}
+.appcard{text-align:center}.appcard img{width:168px;height:168px;border-radius:28px}
+section{padding:42px 0}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.step{display:flex;gap:13px}.num{background:var(--red);color:#fff;border-radius:50%;width:30px;height:30px;flex:0 0 30px;display:flex;align-items:center;justify-content:center;font-weight:700}
+table{width:100%;border-collapse:collapse}th,td{border:1px solid var(--line);padding:11px;text-align:left;vertical-align:top}th{background:var(--bg)}
+footer{border-top:1px solid var(--line);background:var(--bg);padding:28px 0;color:var(--muted)}
+@media(max-width:800px){.hero-grid,.grid{grid-template-columns:1fr}h1{font-size:34px}nav{display:none}}
+</style>
+</head>
 <body>
-<h1>Daily Cringe Poster</h1>
-<p class="muted">A publishing tool used by the Daily Cringe account owner.</p>
-<p>Daily Cringe Poster helps the account owner publish their own short videos to their own accounts, including TikTok (@1_dailycringe) and YouTube (Daily Cringe, @Daily.Cringe1).</p>
-<p>The owner signs in with the platform account, authorizes the tool, previews each video, and approves publishing. The tool uploads the approved video file and, where the platform allows it after review, posts it to the owner's profile. It does not collect other users' data, does not sell data, and is not offered to other users at this time.</p>
-<h2>Contact</h2>
-<p>Contact the Daily Cringe account owner through the TikTok or YouTube profiles above.</p>
-<p><a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Service</a></p>
-</body></html>
+<header><div class="wrap nav">
+  <a class="brand" href="index.html"><img src="app-icon.png" alt="Daily Cringe Poster app icon">Daily Cringe Poster</a>
+  <nav><a href="#product">Product</a><a href="#how-it-works">How it works</a><a href="#integrations">Integrations</a><a href="#accounts">Accounts</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a></nav>
+</div></header>
+
+<div class="hero"><div class="wrap hero-grid">
+  <div>
+    <span class="badge">Official website · Daily Cringe Poster</span>
+    <h1>Publish Daily Cringe videos with preview-first control.</h1>
+    <p class="lead">Daily Cringe Poster is a fully developed, owner-operated publishing tool. It helps the Daily Cringe account owner prepare, preview, approve, upload, and publish their own short videos to their own TikTok and YouTube accounts through official platform APIs.</p>
+    <p>This is not a login-only page and it is not a placeholder. This website documents the live product, the publishing workflow, the accounts it serves, the data it processes, and the policies that govern it.</p>
+    <p><a href="#how-it-works">See how publishing works</a> · <a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Service</a></p>
+  </div>
+  <div class="card appcard">
+    <img src="app-icon.png" alt="Daily Cringe Poster icon used consistently across the app and this website">
+    <h3>Daily Cringe Poster</h3>
+    <p class="muted">The icon above is the same Daily Cringe Poster icon used in the TikTok app configuration, as this website favicon, and as the brand mark across this site.</p>
+  </div>
+</div></div>
+
+<main class="wrap">
+<section id="product">
+  <h2>Product overview</h2>
+  <div class="grid">
+    <div class="card"><h3>Built for one creator operation</h3><p>Daily Cringe Poster serves the Daily Cringe short-video operation. The account owner selects videos they own or are authorized to publish, reviews every edit, and approves each post before anything is sent to a platform.</p></div>
+    <div class="card"><h3>Preview before publish</h3><p>No video is published automatically without owner review. The owner checks the final video, title, caption, thumbnail, destination account, and visibility before approving an upload or direct post.</p></div>
+    <div class="card"><h3>Official APIs only</h3><p>The tool connects through TikTok Login Kit and the TikTok Content Posting API, and through the YouTube Data API. It does not scrape platforms, automate personal browser sessions, or collect other users' content or data.</p></div>
+  </div>
+</section>
+
+<section id="how-it-works">
+  <h2>How it works</h2>
+  <div class="card">
+    <div class="step"><div class="num">1</div><p><strong>Connect the owner's account.</strong> The owner signs in with TikTok Login Kit and grants only the permissions listed below. The tool verifies that the authorized TikTok creator is <strong>@1_dailycringe</strong> before any upload.</p></div>
+    <div class="step"><div class="num">2</div><p><strong>Prepare the video.</strong> The owner adds their own short video, checks the edit, and prepares the title, caption, and thumbnail intended for publication.</p></div>
+    <div class="step"><div class="num">3</div><p><strong>Preview and approve.</strong> The owner previews the exact video and publishing details. Publishing stops here unless the owner explicitly approves that specific video.</p></div>
+    <div class="step"><div class="num">4</div><p><strong>Upload.</strong> After approval, the tool uploads the approved video file to the owner's TikTok account using the Content Posting API upload capability.</p></div>
+    <div class="step"><div class="num">5</div><p><strong>Publish and verify.</strong> Where production approval allows, the tool publishes the approved video to the owner's own profile and then checks the resulting status so the owner can record the published link.</p></div>
+  </div>
+</section>
+
+<section id="integrations">
+  <h2>Integrations and permissions</h2>
+  <table>
+    <tr><th>Product</th><th>Permission</th><th>Why Daily Cringe Poster uses it</th></tr>
+    <tr><td>TikTok Login Kit</td><td><code>user.info.basic</code></td><td>Lets the owner sign in and lets the tool confirm the authorized creator account is the owner's own TikTok account, @1_dailycringe.</td></tr>
+    <tr><td>TikTok Content Posting API</td><td><code>video.upload</code></td><td>Uploads an owner-approved video file to the owner's own TikTok account.</td></tr>
+    <tr><td>TikTok Content Posting API — Direct Post</td><td><code>video.publish</code></td><td>Publishes an owner-approved video to the owner's own TikTok profile after the preview-and-approval step.</td></tr>
+    <tr><td>YouTube Data API</td><td>Upload and channel verification permissions</td><td>Verifies the owner's Daily Cringe channel and uploads owner-approved videos and thumbnails to that channel.</td></tr>
+  </table>
+  <p class="muted">Daily Cringe Poster does not request TikTok profile statistics, follower lists, other creators' videos, advertising access, or messaging access.</p>
+</section>
+
+<section id="accounts">
+  <h2>Accounts served</h2>
+  <div class="grid">
+    <div class="card"><h3>TikTok</h3><p><strong>Daily Cringe</strong><br>@1_dailycringe</p><p class="muted">Short-form Daily Cringe videos published by the account owner.</p></div>
+    <div class="card"><h3>YouTube</h3><p><strong>Daily Cringe</strong><br>@Daily.Cringe1</p><p class="muted">The owner's Daily Cringe YouTube channel for approved short videos.</p></div>
+    <div class="card"><h3>Owner-only access</h3><p>Daily Cringe Poster is operated by and for the Daily Cringe account owner. It is not offered as a public posting service for unrelated users at this time.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>Trust, privacy, and control</h2>
+  <div class="grid">
+    <div class="card"><h3>Data minimization</h3><p>The tool processes the account identifiers needed to verify the owner, plus the video files and publishing metadata the owner approves. It does not sell personal information or build advertising profiles.</p></div>
+    <div class="card"><h3>Revocable access</h3><p>The owner can revoke TikTok or YouTube API access from the connected platform's account settings at any time. Revocation stops future API publishing until the owner authorizes the tool again.</p></div>
+    <div class="card"><h3>Policy access</h3><p>The <a href="privacy.html">Privacy Policy</a> and <a href="terms.html">Terms of Service</a> are public, linked from every page of this website, and available without signing in.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>Contact</h2>
+  <div class="card"><p>Questions about Daily Cringe Poster, privacy, or removal requests can be sent to the Daily Cringe account owner through the public TikTok profile <strong>@1_dailycringe</strong> or the YouTube channel <strong>@Daily.Cringe1</strong>.</p></div>
+</section>
+</main>
+
+<footer><div class="wrap">
+  <p><img src="favicon.png" alt="" width="20" height="20" style="vertical-align:-4px;border-radius:5px"> <strong>Daily Cringe Poster</strong> — the publishing tool for Daily Cringe (@1_dailycringe on TikTok and @Daily.Cringe1 on YouTube).</p>
+  <p><a href="index.html">Home</a> · <a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Service</a> · <a href="callback.html">Authorization callback</a></p>
+</div></footer>
+</body>
+</html>
