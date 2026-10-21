@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Human 3.0 人生发展水位自测</title>
+<meta name="description" content="基于 Dan Koe 的 HUMAN 3.0 模型：四个象限 × 三个层级 × 三个阶段，16 道题测出你的人生发展水位、原型与元类型。">
+<style>
+  :root{
+    --ink:#22252b; --sub:#6b7280; --line:#e7e2d9;
+    --red:#e5484d; --blue:#3e9be9; --green:#46a758;
+    --bg:#faf7f2; --card:#ffffff;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
+  .wrap{max-width:640px;margin:0 auto;padding:24px 20px 48px}
+  .screen{display:none}
+  .screen.active{display:block;animation:fade .35s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  /* ---------- start ---------- */
+  .badge{display:inline-block;font-size:12px;letter-spacing:.18em;color:var(--sub);border:1px solid var(--line);border-radius:999px;padding:4px 12px;margin-bottom:18px}
+  h1{font-size:32px;line-height:1.3;font-weight:800;letter-spacing:.01em}
+  h1 .thin{font-weight:300;color:var(--sub)}
+  .lead{margin-top:14px;font-size:15px;color:#3c4149}
+  .model{display:flex;gap:8px;margin:22px 0}
+  .model div{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 6px;text-align:center}
+  .model b{display:block;font-size:15px}
+  .model span{font-size:11px;color:var(--sub)}
+  .note{font-size:13px;color:var(--sub);margin:14px 0 26px}
+  .btn{display:block;width:100%;border:none;cursor:pointer;background:var(--ink);color:#fff;font-size:17px;font-weight:700;padding:15px 0;border-radius:14px;letter-spacing:.06em}
+  .btn:active{transform:scale(.99)}
+  .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);margin-top:12px}
+  .credit{margin-top:28px;font-size:12px;color:#a3a8b0;text-align:center;line-height:1.9}
+  /* ---------- quiz ---------- */
+  .progress{height:6px;background:#eee7da;border-radius:99px;overflow:hidden;margin:6px 0 8px}
+  .progress i{display:block;height:100%;background:var(--ink);border-radius:99px;transition:width .3s ease}
+  .qmeta{display:flex;justify-content:space-between;font-size:12px;color:var(--sub);margin-bottom:20px}
+  .qchip{font-weight:700;color:var(--ink)}
+  .qtext{font-size:20px;font-weight:700;line-height:1.55;margin-bottom:20px}
+  .opt{display:block;width:100%;text-align:left;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:15px 16px;font-size:15px;line-height:1.65;color:var(--ink);cursor:pointer;margin-bottom:12px;transition:border-color .15s,background .15s}
+  .opt:active{border-color:var(--ink);background:#f4efe6}
+  .backlink{background:none;border:none;color:var(--sub);font-size:14px;cursor:pointer;padding:8px 0}
+  /* ---------- result ---------- */
+  .r-head{text-align:center;padding-top:6px}
+  .r-head .cap{font-size:13px;color:var(--sub);letter-spacing:.14em}
+  .r-score{font-size:58px;font-weight:800;line-height:1.15}
+  .r-level{font-size:17px;font-weight:700}
+  .r-sub{font-size:13px;color:var(--sub);margin-top:4px}
+  .circle-box{display:flex;justify-content:center;margin:20px 0 6px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-top:16px}
+  .card h3{font-size:15px;margin-bottom:10px;letter-spacing:.04em}
+  .quad{padding:12px 0;border-bottom:1px dashed var(--line)}
+  .quad:last-child{border-bottom:none;padding-bottom:2px}
+  .quad-top{display:flex;justify-content:space-between;align-items:baseline}
+  .quad-name{font-weight:800;font-size:16px}
+  .quad-name span{font-weight:400;color:var(--sub);font-size:12px;margin-left:6px}
+  .quad-score{font-weight:800;font-size:16px}
+  .bar{height:8px;background:#f0eadf;border-radius:99px;overflow:hidden;margin:8px 0 6px}
+  .bar i{display:block;height:100%;border-radius:99px}
+  .quad-meta{font-size:13px;color:#4b5563}
+  .quad-meta b{color:var(--ink)}
+  .trait-row{display:flex;align-items:center;gap:10px;margin:8px 0;font-size:13px}
+  .trait-row .t-name{width:38px;font-weight:700}
+  .trait-row .bar{flex:1;margin:0}
+  .trait-row .t-val{width:30px;text-align:right;color:var(--sub)}
+  .meta-name{font-size:20px;font-weight:800;line-height:1.45}
+  .meta-desc{font-size:14px;color:#3c4149;margin-top:6px}
+  .plan p{font-size:14px;margin:8px 0}
+  .plan b{display:inline-block;min-width:52px}
+  .disc{font-size:12px;color:#a3a8b0;margin-top:22px;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ======== 开始页 ======== -->
+  <section id="s-start" class="screen active">
+    <div class="badge">HUMAN 3.0 · SELF DISCOVERY</div>
+    <h1>一张通往前 1% 的<br>人生地图<span class="thin"> · 自测版</span></h1>
+    <p class="lead">外网作者 Dan Koe 的 HUMAN 3.0 模型，把人生拆成四个象限，每个象限里有三个发展层级与三个过渡阶段。这个网页把他那套「喂给 AI 的自我发现测试」做成了可直接作答的版本：16 道题，约 3 分钟，测出你的综合发展水位、四个象限的原型、元类型，以及你真正被卡住的地方。</p>
+    <div class="model">
+      <div><b>心智</b><span>MIND</span></div>
+      <div><b>身体</b><span>BODY</span></div>
+      <div><b>精神</b><span>SPIRIT</span></div>
+      <div><b>事业</b><span>VOCATION</span></div>
+    </div>
+    <p class="note">没有对错，也不必美化——按你<strong>实际的样子</strong>选，不要按你希望的样子选。结果准不准，全看答得诚不诚实。</p>
+    <button class="btn" onclick="startQuiz()">开始自测</button>
+    <p class="credit">模型来源：Dan Koe《HUMAN 3.0》<br>网页版由「第肆堵墙」整理制作</p>
+  </section>
+
+  <!-- ======== 答题页 ======== -->
+  <section id="s-quiz" class="screen">
+    <div class="progress"><i id="pbar" style="width:0%"></i></div>
+    <div class="qmeta"><span class="qchip" id="qchip"></span><span id="qcount"></span></div>
+    <div class="qtext" id="qtext"></div>
+    <div id="qopts"></div>
+    <button class="backlink" id="btn-back" onclick="prevQ()">← 上一题</button>
+  </section>
+
+  <!-- ======== 结果页 ======== -->
+  <section id="s-result" class="screen">
+    <div class="r-head">
+      <div class="cap">你的综合发展水位</div>
+      <div class="r-score" id="r-score"></div>
+      <div class="r-level" id="r-level"></div>
+      <div class="r-sub" id="r-sub"></div>
+    </div>
+    <div class="circle-box" id="r-circle"></div>
+
+    <div class="card">
+      <h3>四个象限 · 原型与阶段</h3>
+      <div id="r-quads"></div>
+    </div>
+
+    <div class="card">
+      <h3>三种特质配平（知识 / 经验 / 技能）</h3>
+      <div id="r-traits"></div>
+      <p class="quad-meta" id="r-traits-note" style="margin-top:8px"></p>
+    </div>
+
+    <div class="card">
+      <h3>你的元类型（Metatype）</h3>
+      <div class="meta-name" id="r-meta-name"></div>
+      <p class="meta-desc" id="r-meta-desc"></p>
+    </div>
+
+    <div class="card plan">
+      <h3>核心卡点与下一步</h3>
+      <p id="r-block"></p>
+      <p><b>30 天</b><span id="r-p30"></span></p>
+      <p><b>90 天</b><span>把最低象限里验证有效的动作固定成日程和系统，让它不靠意志力也能运转——2.0 的生活方式是「设计」，先从最漏水的那个象限开始设计。</span></p>
+      <p><b>180 天</b><span>最低象限止漏之后，把腾出来的精力导向第二低的象限。模型的用法是系统性解题：解法会跨象限传导，心智的突破会漏进事业，身体的秩序会漏进精神。</span></p>
+    </div>
+
+    <button class="btn" style="margin-top:22px" onclick="location.reload()">重新测一次</button>
+    <p class="disc">说明：这是一套哲学框架，不是科学量表。层级没有好坏，只是旅程中的位置；人也不会「离开」某个层级，而是超越并包含它。压力之下暂时退回低层级（回退）、感觉升级了其实只在模仿（虚假蜕变），都是模型预告过的正常现象。当地图用，别当真理用。</p>
+    <p class="credit">模型来源：Dan Koe《HUMAN 3.0》 · 网页版由「第肆堵墙」整理制作</p>
+  </section>
+</div>
+
+<script>
+/* ================= 数据 ================= */
+var QUADS = [
+  { id:"mind", name:"心智", en:"Mind", arche:["NPC","玩家 Player","创造者 Creator"],
+    archeDesc:["跟着脚本走的 NPC","开始自己玩游戏的玩家","能创造新游戏的创造者"] },
+  { id:"body", name:"身体", en:"Body", arche:["Incel","Chad","Sigma"],
+    archeDesc:["疏于打理、状态失控","刻意经营外形与状态","自成一格、不被标准绑架"] },
+  { id:"spirit", name:"精神", en:"Spirit", arche:["Religion","Atheism","Mysticism"],
+    archeDesc:["按既定信仰与角色本分生活","推翻旧答案、只信自己挣来的意义","重新发现更高视角的连接与意义"] },
+  { id:"vocation", name:"事业", en:"Vocation", arche:["Job","Career","Calling"],
+    archeDesc:["一份谋生的工作","一条向上的职业阶梯","一件真正想做的天职"] }
+];
+
+/* 每题：q=象限序号, trait=K/E/S/P(阶段), text, opts=[1分,2分,3分] */
+var QUESTIONS = [
+ /* ---- 心智 ---- */
+ {q:0,trait:"知识",text:"当你接触到一个与你原有看法冲突的新观点时，你通常会？",opts:[
+   "本能地抵触。对错本来就很清楚，不符合既定答案的多半是错的",
+   "先看它对我有没有用。认同能帮我达到目标的部分，其余当噪音",
+   "先让它在脑子里并存。不同视角有各自成立的前提，我更想搞清它在什么条件下成立"]},
+ {q:0,trait:"经验",text:"过去一年，你的世界观发生过实质变化吗？",opts:[
+   "基本没有。我认定的东西一直很稳定，也不需要变",
+   "变过几次，主要是被现实打了脸之后，修正了那些妨碍我达成目标的看法",
+   "一直在变。我会主动拿不同框架互相印证——观点是用来升级的，不是用来守的"]},
+ {q:0,trait:"技能",text:"面对一个复杂问题（比如职业方向、一段关系），你的思考方式更接近？",opts:[
+   "找一个权威答案或标准流程，照着做最稳妥",
+   "自己拆解、权衡利弊，选对我最有利的那个解法",
+   "先看系统里各要素怎么互相影响，再去找那个能撬动全局的关键点"]},
+ {q:0,trait:"阶段",text:"单看「心智」这一块，你现在最接近哪种状态？",opts:[
+   "不适：旧想法的好处榨干了，越来越没劲，知道得变，但不知道下一章是什么",
+   "不确定：已经在试错了，在大量收集信息和体验，有点脆弱，但停不下来",
+   "发现：找到了管用的框架和资源，正在把新认知整合进来，快摸到下一层的门了"]},
+ /* ---- 身体 ---- */
+ {q:1,trait:"知识",text:"你对自己的身体状态（睡眠、饮食、训练、精力）的了解程度是？",opts:[
+   "没怎么想过。跟着习惯和周围人走，累了就歇，饿了就吃",
+   "研究过不少方法，知道什么对形象和状态有利，会挑着执行",
+   "有一套自己的底层理解：清楚每个变量怎么影响精力与表现，能按状态动态调整"]},
+ {q:1,trait:"经验",text:"过去三个月，你的身体管理实际执行得怎么样？",opts:[
+   "基本放养。作息饮食经常失控，状态全看运气",
+   "有明确的计划，多数时候能做到，偶尔为工作和社交让路",
+   "好习惯已经长在日常里，不需要靠意志力硬撑；再忙也能自动运转"]},
+ {q:1,trait:"技能",text:"你的外在呈现（仪态、穿着、表达）由你掌控的程度是？",opts:[
+   "没在意过这些。别人怎么看，是别人的事",
+   "会刻意经营。知道不同场合该呈现什么样，也做得到",
+   "呈现与内在基本一致，不需要演；能按需要切换状态，但不被状态绑架"]},
+ {q:1,trait:"阶段",text:"单看「身体」这一块，你现在最接近哪种状态？",opts:[
+   "不适：现在这套活法的好处榨干了，状态越来越差，知道得变，但不知道从哪下手",
+   "不确定：已经在试了，在试不同的作息、饮食和训练法，有点乱，但停不下来",
+   "发现：找到了对自己管用的方法，正在把它固化成日常，快摸到下一层的门了"]},
+ /* ---- 精神 ---- */
+ {q:2,trait:"知识",text:"你怎么看待「人为什么活着」这类问题？",opts:[
+   "有现成的答案——信仰、传统或长辈就是这么说的，照着信就行，不用自己想",
+   "标准答案说服不了我。意义得自己挣：成就、体验、被认可，就是意义",
+   "意义不是被「找到」的，是在关系和创造里长出来的；不同阶段，答案会变"]},
+ {q:2,trait:"经验",text:"你和家人、朋友、社群的关系状态更接近？",opts:[
+   "按角色本分相处，该尽的义务尽到。关系稳定，但很少交心",
+   "精力主要投给对自己重要的人。关系有筛选，有边界",
+   "有几段能深度连接的关系，也能和与自己完全不同的人真诚相处"]},
+ {q:2,trait:"技能",text:"当你和重要的人发生冲突、或感到孤独时，你通常怎么处理？",opts:[
+   "忍或者躲，等它过去；或者拿对错标准评判谁该让步",
+   "直接摊开谈条件和需求，把问题解决掉",
+   "能先看见对方的视角和自己的情绪来源，再决定怎么回应"]},
+ {q:2,trait:"阶段",text:"单看「精神」这一块（关系、意义、归属），你现在最接近哪种状态？",opts:[
+   "不适：旧关系和旧答案的好处榨干了，越来越空，知道得变，但不知道下一章是什么",
+   "不确定：已经在试了，在重新建立关系、寻找新的连接方式，有点脆弱，但停不下来",
+   "发现：找到了让自己安顿下来的关系和意义来源，正在整合，快摸到下一层的门了"]},
+ /* ---- 事业 ---- */
+ {q:3,trait:"知识",text:"你怎么理解自己工作 / 事业的本质？",opts:[
+   "工作就是谋生。有个稳定的位置、按规矩做事，最重要",
+   "工作是往上走的阶梯，拼的是职位、收入和行业地位",
+   "工作是把能力变成价值的系统。我更关心自己在创造什么、解决什么问题"]},
+ {q:3,trait:"经验",text:"你当前事业状态的真实写照是？",opts:[
+   "在一个岗位上按部就班，谈不上喜欢，先求安稳",
+   "有明确的上升通道或增长目标，正在为此积累资源和战绩",
+   "在做一件真正想做的事，收入、成长和影响力开始互相推动"]},
+ {q:3,trait:"技能",text:"你在工作中最能打的能力是？",opts:[
+   "执行力——交代的事，能保质保量完成",
+   "竞争力——专业过硬，能在同行里排到前面",
+   "造局能力——能定义问题、整合资源，做出别人做不出的东西"]},
+ {q:3,trait:"阶段",text:"单看「事业」这一块，你现在最接近哪种状态？",opts:[
+   "不适：现在这份事业的好处榨干了，越来越没劲，知道得变，但不知道下一章是什么",
+   "不确定：已经在试了，在试新方向、新技能、新机会，有点脆弱，但停不下来",
+   "发现：找到了管用的路径和资源，正在整合发力，快摸到下一层的门了"]}
+];
+
+var LEVEL_NAMES = ["","顺从者 The Conformist","个人主义者 The Individualist","综合者 The Synthesist"];
+var LEVEL_SHORT = ["","1.0 顺从者","2.0 个人主义者","3.0 综合者"];
+var PHASE_NAMES = ["","不适 Dissonance","不确定 Uncertainty","发现 Discovery"];
+var BAND_COLORS = ["","#e5484d","#3e9be9","#46a758"];
+</script>
+<script>
+/* ================= 逻辑 ================= */
+var idx = 0, answers = [];
+
+function show(id){
+  var ss = document.querySelectorAll(".screen");
+  for (var i=0;i<ss.length;i++) ss[i].classList.remove("active");
+  document.getElementById(id).classList.add("active");
+  window.scrollTo(0,0);
+}
+function startQuiz(){ idx = 0; answers = []; show("s-quiz"); renderQ(); }
+function renderQ(){
+  var q = QUESTIONS[idx];
+  document.getElementById("pbar").style.width = (idx / QUESTIONS.length * 100) + "%";
+  document.getElementById("qchip").textContent = QUADS[q.q].name + " " + QUADS[q.q].en + " · " + q.trait;
+  document.getElementById("qcount").textContent = "第 " + (idx+1) + " / " + QUESTIONS.length + " 题";
+  document.getElementById("qtext").textContent = q.text;
+  document.getElementById("btn-back").style.visibility = idx === 0 ? "hidden" : "visible";
+  var box = document.getElementById("qopts"); box.innerHTML = "";
+  q.opts.forEach(function(t, i){
+    var b = document.createElement("button");
+    b.className = "opt"; b.textContent = t;
+    b.onclick = function(){ pick(i + 1); };
+    box.appendChild(b);
+  });
+}
+function pick(score){
+  answers[idx] = score; idx++;
+  if (idx >= QUESTIONS.length) renderResult(); else renderQ();
+}
+function prevQ(){ if (idx > 0){ idx--; renderQ(); } }
+
+function bandOf(v){ return v < 1.5 ? 1 : (v < 2.5 ? 2 : 3); }
+function fmt(v){ return (Math.round(v * 10) / 10).toFixed(1); }
+function polar(cx, cy, r, deg){ var a = deg * Math.PI / 180; return [cx + r * Math.cos(a), cy + r * Math.sin(a)]; }
+function wedge(cx, cy, r, a0, a1){
+  var p0 = polar(cx, cy, r, a0), p1 = polar(cx, cy, r, a1);
+  return "M" + cx + "," + cy + " L" + p0[0].toFixed(1) + "," + p0[1].toFixed(1) +
+         " A" + r + "," + r + " 0 0 1 " + p1[0].toFixed(1) + "," + p1[1].toFixed(1) + " Z";
+}
+
+function renderResult(){
+  /* 计算 */
+  var quadScore = [0,0,0,0], quadPhase = [0,0,0,0], traits = {"知识":0,"经验":0,"技能":0}, total = 0;
+  QUESTIONS.forEach(function(q, i){
+    var a = answers[i];
+    if (q.trait === "阶段") quadPhase[q.q] = a;
+    else { quadScore[q.q] += a; traits[q.trait] += a; total += a; }
+  });
+  for (var k = 0; k < 4; k++) quadScore[k] = quadScore[k] / 3;
+  var overall = total / 12, band = bandOf(overall);
+  var maxQ = 0, minQ = 0;
+  for (var k2 = 1; k2 < 4; k2++){
+    if (quadScore[k2] > quadScore[maxQ]) maxQ = k2;
+    if (quadScore[k2] < quadScore[minQ]) minQ = k2;
+  }
+
+  /* 头部 */
+  document.getElementById("r-score").textContent = "Human " + fmt(overall);
+  document.getElementById("r-level").textContent = LEVEL_SHORT[band] + " · " + LEVEL_NAMES[band].split(" ")[0];
+  document.getElementById("r-sub").textContent = "12 个发展切片总分 " + total + " / 36 · 最高：" + QUADS[maxQ].name + " " + fmt(quadScore[maxQ]) + " · 最低：" + QUADS[minQ].name + " " + fmt(quadScore[minQ]);
+
+  /* 圆图 */
+  var cx = 150, cy = 150, R = 124, rings = [R/3, 2*R/3, R];
+  var spans = [[180,270],[270,360],[90,180],[0,90]]; /* 心智左上 身体右上 精神左下 事业右下 */
+  var svg = '<svg width="300" height="300" viewBox="0 0 300 300">';
+  svg += '<circle cx="150" cy="150" r="' + rings[2] + '" fill="#46a758" opacity="0.07"/>';
+  svg += '<circle cx="150" cy="150" r="' + rings[1] + '" fill="#3e9be9" opacity="0.08"/>';
+  svg += '<circle cx="150" cy="150" r="' + rings[0] + '" fill="#e5484d" opacity="0.10"/>';
+  for (var q2 = 0; q2 < 4; q2++){
+    var rr = quadScore[q2] / 3 * R;
+    svg += '<path d="' + wedge(cx, cy, rr, spans[q2][0], spans[q2][1]) + '" fill="' + BAND_COLORS[bandOf(quadScore[q2])] + '" opacity="0.78"/>';
+  }
+  rings.forEach(function(r){
+    svg += '<circle cx="150" cy="150" r="' + r + '" fill="none" stroke="#d8d2c4" stroke-width="1"/>';
+  });
+  svg += '<line x1="26" y1="150" x2="274" y2="150" stroke="#d8d2c4"/>';
+  svg += '<line x1="150" y1="26" x2="150" y2="274" stroke="#d8d2c4"/>';
+  svg += '<circle cx="150" cy="150" r="3.5" fill="#22252b"/>';
+  svg += '<text x="157" y="' + (150 - rings[0] + 13) + '" font-size="9" fill="#9aa0a8">1.0</text>';
+  svg += '<text x="157" y="' + (150 - rings[1] + 13) + '" font-size="9" fill="#9aa0a8">2.0</text>';
+  svg += '<text x="157" y="' + (150 - rings[2] + 13) + '" font-size="9" fill="#9aa0a8">3.0</text>';
+  svg += '<text x="16" y="24" font-size="13" font-weight="700" fill="#22252b">心智</text>';
+  svg += '<text x="252" y="24" font-size="13" font-weight="700" fill="#22252b">身体</text>';
+  svg += '<text x="16" y="290" font-size="13" font-weight="700" fill="#22252b">精神</text>';
+  svg += '<text x="252" y="290" font-size="13" font-weight="700" fill="#22252b">事业</text>';
+  svg += '</svg>';
+  document.getElementById("r-circle").innerHTML = svg;
+
+  /* 象限卡 */
+  var qh = "";
+  QUADS.forEach(function(Q, i){
+    var lv = bandOf(quadScore[i]);
+    qh += '<div class="quad"><div class="quad-top"><div class="quad-name">' + Q.name + '<span>' + Q.en.toUpperCase() + '</span></div>' +
+      '<div class="quad-score" style="color:' + BAND_COLORS[lv] + '">' + fmt(quadScore[i]) + '</div></div>' +
+      '<div class="bar"><i style="width:' + (quadScore[i] / 3 * 100) + '%;background:' + BAND_COLORS[lv] + '"></i></div>' +
+      '<div class="quad-meta">原型：<b>' + Q.arche[lv - 1] + '</b>（' + Q.archeDesc[lv - 1] + '）<br>当前阶段：<b>' + PHASE_NAMES[quadPhase[i]] + '</b></div></div>';
+  });
+  document.getElementById("r-quads").innerHTML = qh;
+
+  /* 特质 */
+  var th = "", torder = ["知识","经验","技能"];
+  torder.forEach(function(t){
+    th += '<div class="trait-row"><div class="t-name">' + t + '</div><div class="bar"><i style="width:' + (traits[t] / 12 * 100) + '%;background:#22252b"></i></div><div class="t-val">' + traits[t] + '/12</div></div>';
+  });
+  document.getElementById("r-traits").innerHTML = th;
+  var K = traits["知识"], E = traits["经验"], S = traits["技能"], tnote;
+  if (K - E >= 3) tnote = "知识远超经验——小心「胖私教」陷阱：懂很多，但没被现实检验过，说服力会打折。把知道的先拿去用，别再囤新课了。";
+  else if (E - K >= 3) tnote = "经验远超知识——天花板警告：一直在靠直觉和苦劳硬撑。补上框架和理论，是你现在性价比最高的一步。";
+  else if (S <= K - 2 && S <= E - 2) tnote = "技能是三种特质里的短板：知道、也做过，但还没打磨成直觉级的胜任力。缺的不是输入，是刻意练习的量。";
+  else tnote = "三种特质相对配平，这是能持续跃迁的底子——知识、经验、技能互相喂养，继续保持配比即可。";
+  document.getElementById("r-traits-note").textContent = tnote;
+
+  /* 元类型 */
+  var spread = quadScore[maxQ] - quadScore[minQ], mName, mDesc;
+  if (spread >= 1.0){
+    mName = "「" + QUADS[maxQ].arche[bandOf(quadScore[maxQ]) - 1] + "」主导的偏科型";
+    mDesc = "你的" + QUADS[maxQ].name + "象限以原型「" + QUADS[maxQ].arche[bandOf(quadScore[maxQ]) - 1] + "」领跑，" + QUADS[minQ].name + "象限却明显拖后腿——这正是模型示例人物 The Outlier 的形态：不是整体不行，是系统里有一块在漏水。对你来说，先补最低的那块，收益远大于继续拉高最强项。";
+  } else if (overall >= 2.5){
+    mName = "整合型 · 四象限协同的综合者";
+    mDesc = "四个象限水位接近且整体偏高，象限之间开始互相滋养而不是互相抢时间。你的课题不再是补短板，而是防止回退：压力之下守住系统，别让某个象限悄悄吞掉其他三个。";
+  } else if (overall < 1.5){
+    mName = "蓄势型 · 系统待启动";
+    mDesc = "四个象限都还在靠既定脚本运转。这不是判决，是起点：任何象限的一个小突破都会非常明显。但切忌四个象限同时动手——先挑最卡的那一个，用最小投入撬动它。";
+  } else {
+    mName = "均衡上升型 · 齐头并进";
+    mDesc = "四个象限水位接近、没有明显漏点，你的形态是稳步向上型。下一步的关键是找到一个让你真正兴奋的 Channel（通道）——均衡的人最缺的往往不是努力，是一个能把你整个人点着的切口。";
+  }
+  document.getElementById("r-meta-name").textContent = mName;
+  document.getElementById("r-meta-desc").textContent = mDesc;
+
+  /* 卡点 */
+  var ph = quadPhase[minQ], blockTxt, p30;
+  if (ph === 1){
+    blockTxt = "你最卡的是【" + QUADS[minQ].name + "】象限（" + fmt(quadScore[minQ]) + "，处于「不适」阶段）。不适阶段的任务不是立刻翻盘，而是找到一个让你眼睛发光的小切口——模型称之为 Channel（通道）：一件一头扎进去就忘了时间的事。先在" + QUADS[minQ].name + "里找到它。";
+    p30 = "先补【" + QUADS[minQ].name + "】：每天给那个小切口留 25 分钟，其他什么都别改。模型的关键规则是用最小有效投入推进，不要一上来就掀桌子。";
+  } else if (ph === 2){
+    blockTxt = "你最卡的是【" + QUADS[minQ].name + "】象限（" + fmt(quadScore[minQ]) + "，处于「不确定」阶段）。不确定阶段最怕无限发散：试了很多，却没有一个被验证到底。";
+    p30 = "先补【" + QUADS[minQ].name + "】：把正在试的方向砍到只剩 1 个，给它设一个能验证成败的小实验，本月内跑出结果，用结果决定去留。";
+  } else {
+    blockTxt = "你最卡的是【" + QUADS[minQ].name + "】象限（" + fmt(quadScore[minQ]) + "，处于「发现」阶段）。你离跃迁最近，也最容易撞上「虚假蜕变」——学了高层级的样子，却没练出对应的特质。";
+    p30 = "先补【" + QUADS[minQ].name + "】：把你已经验证有效的方法列成清单，逐条对照——哪些是真会，哪些只是会说。本月只补「会说不会做」的那几条。";
+  }
+  document.getElementById("r-block").textContent = blockTxt;
+  document.getElementById("r-p30").textContent = p30;
+
+  show("s-result");
+}
+</script>
+</body>
+</html>
